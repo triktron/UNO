@@ -117,10 +117,7 @@ function drawCard() {
         }
     });
     render();
-}var cindex = players.indexOf(player);
-    var nindex = cindex + 1;
-    if (cindex == players.length - 1) nindex = 0;
-    turn = players[nindex].name;
+}
 
 function nextPlayer() {
     var cp;
