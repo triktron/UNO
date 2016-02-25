@@ -63,6 +63,6 @@ body {
 
 @-webkit-keyframes active {
   from {  -webkit-box-shadow: 0 0 9px #333; }
-  50% {  -webkit-box-shadow: 0 0 18px #91bd09; }
+  50% {  -webkit-box-shadow: 0 0 36px #91bd09; }
   to {  -webkit-box-shadow: 0 0 9px #333; }
 }
