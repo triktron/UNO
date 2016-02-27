@@ -1,5 +1,6 @@
 var cardsList = new Array(41);
 var dC, cC, mC;
+var t = 0, d = true;
 
 function init() {
     var done = 0;
@@ -48,6 +49,7 @@ function card(id) {
         this.img.onclick = function() {
             if (!self.player.isTurn) return;
             if (self.canBePlacedOn(mC)) {
+                self.place();
                 mC = new card(self.id);
                 self.player.cards.splice(self.player.cards.indexOf(self),1);
                 nextPlayer();
@@ -56,11 +58,34 @@ function card(id) {
         }
         return this;
     }
+
+    this.place = function() {
+        if (this.number < 10 && this.color != "any") return;
+
+
+        if (this.number == 11) d = !d;
+        var np = t;
+        if (d) {
+            if (np == players.length-1) np = -1;
+            np++;
+        } else {
+            if (np == 0) np = players.length;
+            np--;
+        }
+        if (this.number == 10 || (this.number == 11 && players.length == 2)) t = np;
+        if (this.number == 12) {
+            players[np].cards.push(draw());
+            players[np].cards.push(draw());
+            render();
+            t = np;
+        }
+        //if (this.number)
+    }
 }
 
 function draw(special) {
-    var id = Math.floor((Math.random() * 54) + 1);
-    if (special) while (id == 53 || id == 54 || id % 13 == 11 || id % 13 == 12 || id % 13 == 0) id = Math.floor((Math.random() * 54) + 1);
+    var id = Math.floor((Math.random() * 52) + 1);
+    if (special) while (id == 53 || id == 54 || id % 13 == 11 || id % 13 == 12 || id % 13 == 0) id = Math.floor((Math.random() * 52) + 1);
     return new card(id);
 }
 
@@ -92,6 +117,7 @@ function computer(cards) {
         this.cards.forEach(function(_card) {
             if (!can && _card.canBePlacedOn(mC)) {
                 can = true;
+                _card.place();
                 mC = new card(_card.id);
                 self.cards.splice(self.cards.indexOf(_card),1);
                 nextPlayer();
@@ -120,14 +146,18 @@ function drawCard() {
 }
 
 function nextPlayer() {
-    var cp;
-    players.forEach(function(_player) {if (_player.isTurn) cp = players.indexOf(_player);});
-    players[cp].isTurn = false;
-    if (cp == players.length-1) cp=-1;
-    cp++;
-    players[cp].isTurn = true;
+    players.forEach(function(_player) {_player.isTurn = false;});
+    if (d) {
+        if (t == players.length-1) t = -1;
+        t++;
+    } else {
+        if (t == 0) t=players.length;
+        t--;
+    }
+    console.log(players, t, d)
+    players[t].isTurn = true;
 
-    if (typeof players[cp].run != 'undefined') players[cp].run();
+    if (typeof players[t].run != 'undefined') players[t].run();
 }
 
 function render() {

@@ -31,26 +31,6 @@ body {
     margin-top: -62px;
 }
 
-.ContainerP1C {
-    position: absolute;
-    width: 100%;
-    top: 4px;
-}
-
-.ContainerP2C {
-    position: absolute;
-    width: 100%;
-    bottom: 4px;
-}
-
-#p1c {
-    text-align: center;
-}
-
-#p2c {
-    text-align: center;
-}
-
 .card {
     margin: 2px;
 }
